@@ -1,0 +1,32 @@
+version: '3'
+
+services:
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/conf.d:/etc/nginx/conf.d
+      - ./sources/frontend:/usr/share/nginx/html
+    depends_on:
+      - backend
+    networks:
+      - app-network
+
+  backend:
+    image: node:latest
+    container_name: backend
+    restart: unless-stopped
+    working_dir: /usr/src/app
+    volumes:
+      - ./sources/backend:/usr/src/app
+    command: npm start
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge

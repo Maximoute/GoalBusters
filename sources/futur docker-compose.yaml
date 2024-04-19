@@ -1,0 +1,16 @@
+// BACKEND POUR PLUS TARD NODEJS
+
+  backend:
+    image: node:latest
+    container_name: backend
+    restart: unless-stopped
+    working_dir: /usr/src/app
+    volumes:
+      - ./sources/backend:/usr/src/app
+    command: npm start
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
